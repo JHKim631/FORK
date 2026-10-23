@@ -1,0 +1,21 @@
+{
+  "bench": "researchqa",
+  "source": {
+    "hf_repo": "realliyifei/ResearchQA",
+    "revision": "bf8a4cfef073ecfc0275c57acf8ca960e4dc79d6",
+    "file": "data/test-00000-of-00001.parquet",
+    "sha256": "10838fd1c6228884392362dce0ad9a13e8b0dce796f01d61221c4ce2e989bce9"
+  },
+  "n": 100,
+  "seed": 0,
+  "draw": "random.Random(seed).sample over the Life & Earth Sciences + Physical & Theoretical Sciences test rows sorted by id",
+  "n_source_rows": 3750,
+  "n_candidates": 1100,
+  "n_items": 764,
+  "built_at": "2026-10-23T00:41:21+0900",
+  "domains": [
+    "Life & Earth Sciences",
+    "Physical & Theoretical Sciences"
+  ],
+  "n_citation_items": 49
+}

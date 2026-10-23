@@ -1,0 +1,28 @@
+# RubricHub-Science -> data/science_raw/{train,eval}.parquet: the full science
+# slice (19,806 / 2,201), the intermediate that configs/data/science.yaml
+# curates. Not shipped (gitignored): data/science/ is built from it.
+hf_repo: sojuL/RubricHub_v1
+hf_file: RuRL/rurbichub_v1_Science.parquet
+repo_type: dataset
+revision: 3837d55971473a872e84879c88f708b8da3ec2ef
+
+# The medical bounds: RubricHub science has 9-54 items per prompt (median 27);
+# [8, 50] drops the 3 rows above 50.
+min_rubrics: 8
+max_rubrics: 50
+
+# Prompt-token budget: the policy's context is 2,584 tokens, 2,000 of them for
+# the response, so a prompt must fit 584 tokens measured the way verl measures
+# it (the policy's chat template with the generation prompt appended). 60 raw
+# rows (0.2 %) exceed it and are dropped here, so the split counts are exact
+# after verl's own filter and every eval-pool row can be generated.
+max_prompt_tokens: 584
+tokenizer: Qwen/Qwen2.5-7B-Instruct
+
+n_train: 19806
+n_eval: 2201
+seed: 20260707
+
+id_prefix: sci-
+source: rubrichub_science
+output_dir: data/science_raw

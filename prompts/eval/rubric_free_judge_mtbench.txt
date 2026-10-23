@@ -1,0 +1,27 @@
+# Evaluation: the second rubric-free judge prompt (paper Section 4.3, Table 4),
+# used to check that the win rates are robust to the judge instructions. No
+# scores: the judge explains, then returns one verdict — [[A]], [[B]] or [[C]]
+# for a tie; the harness judges both orders and calls a win only when the two
+# presentations agree (fork.eval.rubric_free, verdict format). Domain-neutral.
+#
+# Placeholders: {question}, {response_A}, {response_B}.
+#
+# Provenance: the MT-Bench pairwise judge prompt "pair-v2" of Zheng et al. (2023),
+# "Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena" (FastChat,
+# fastchat/llm_judge/data/judge_prompts.jsonl), verbatim; the placeholder names
+# follow this repository's loader, so the rendered text is identical to FastChat's.
+# Also the judge prompt of Rezaei et al. (2025), "Online Rubrics Elicitation
+# from Pairwise Comparisons".
+===SYSTEM===
+Please act as an impartial judge and evaluate the quality of the responses provided by two AI assistants to the user question displayed below. You should choose the assistant that follows the user's instructions and answers the user's question better. Your evaluation should consider factors such as the helpfulness, relevance, accuracy, depth, creativity, and level of detail of their responses. Begin your evaluation by comparing the two responses and provide a short explanation. Avoid any position biases and ensure that the order in which the responses were presented does not influence your decision. Do not allow the length of the responses to influence your evaluation. Do not favor certain names of the assistants. Be as objective as possible. After providing your explanation, output your final verdict by strictly following this format: "[[A]]" if assistant A is better, "[[B]]" if assistant B is better, and "[[C]]" for a tie.
+===USER===
+[User Question]
+{question}
+
+[The Start of Assistant A's Answer]
+{response_A}
+[The End of Assistant A's Answer]
+
+[The Start of Assistant B's Answer]
+{response_B}
+[The End of Assistant B's Answer]

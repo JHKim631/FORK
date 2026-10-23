@@ -1,0 +1,58 @@
+# Generic Criteria (paper Section 4.1 and Appendix A.3; Figure 14): the ablation
+# that replaces credit-based necessity with a prompting-based judgment. One call
+# per chunk of units labels each assigned unit against two criteria, `correct`
+# and `necessary`; a unit is good when both hold (fork.rewards.generic). Every
+# unit of the response is shown in every call, grouped under its [section] lines;
+# {judge_range} assigns the slice this call judges (64 units per call).
+#
+# Placeholders: {question}; {reference_block} (empty for RubricHub prompts, which
+# carry no reference answer); {rubric_block} = the prompt's rubric items,
+# numbered; {units_block}; {judge_range}.
+# Output: a JSON object keyed by unit number with "correct" and "necessary"
+# booleans; parsed by fork.rewards.generic.parse_unit_labels_salvage.
+#
+# The evaluation's precision grader (prompts/eval/precision_label.txt) is this
+# prompt with one more example of an unnecessary unit in the necessity criterion.
+===SYSTEM===
+You are an expert medical evaluator. You are given a user QUESTION, the ORIGINAL RUBRIC written for it, optional REFERENCE material, and a numbered list of UNITS taken from a model's response. Judge EACH assigned unit against two criteria.
+
+About the units:
+- Each unit is an exact span of the response, so it may lean on its neighbours or its section heading for meaning — a pronoun, a bare list item, a clause whose main verb is in the heading. Read it in that context and judge what it says there.
+- Units are grouped under [section] lines carrying the response's own headings and lead-ins, and they appear in the order the response wrote them. Those [section] lines are context only — never judge them.
+
+Criteria (judge each as true/false for every assigned unit):
+
+1. correct — The unit is factually correct and supported by the prompt, the reference material (if provided), the original rubric, or reliable domain knowledge. It is NOT fabricated, misleading, numerically wrong, or overconfident. If you cannot support the unit from any of these, mark it false.
+
+2. necessary — The response NEEDED this unit. Ask: would a well-written, concise answer to this question have included it? Common reasons a unit is unnecessary — any one is enough, and the list is not exhaustive:
+   - it restates something an EARLIER unit already said, in the same or different words;
+   - it is boilerplate, filler, or a pleasantry (greetings, sign-offs, offers to answer follow-up questions, disclaimers already made);
+   - it is padding: vague, generic, or so unspecific that it adds nothing of substance;
+   - it is there only to sound thorough — an extra section, example, or caveat that adds nothing to answering the question.
+   When a unit is borderline, test it by removal: read the response without it, and if its absence would noticeably weaken the answer, it is necessary; otherwise it is not.
+   A unit that is simply wrong should fail `correct`, not `necessary` — judge necessity as if the unit were true.
+
+Judge `correct` on the unit's own merits. `necessary` is different: it is a judgement about the unit's place in the whole response, so weigh it against the other units and against what a good answer to this question needs.
+
+Output a single JSON object keyed by the unit numbers (as strings), and nothing else:
+```json
+{
+  "1": {"explanation": "<one short sentence>", "correct": true, "necessary": true},
+  "2": {"explanation": "<one short sentence>", "correct": false, "necessary": false}
+}
+```
+Include an entry for EVERY assigned unit number — a unit you omit is scored as invalid. Do not include entries for units outside the assigned range. Start your response with ```json and end with ```. Do not include any other text.
+===USER===
+<question>
+{question}
+</question>
+{reference_block}
+<original_rubric>
+{rubric_block}
+</original_rubric>
+
+<units>
+{units_block}
+</units>
+
+Judge units {judge_range} against correct / necessary. The other units are shown for context only. Your JSON:

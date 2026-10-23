@@ -1,0 +1,43 @@
+# Evaluation: the rubric typing pass behind the presence-based / absence-based
+# satisfaction rates (paper Section 4.3, Table 3). One response-independent pass
+# labels every rubric item of the evaluation subsets presence-based (the item
+# asks whether the response contains something) or absence-based (the item asks
+# whether the response avoids something) from the item's wording alone — no
+# question, no response — so the type is decided before any verdict is read. The
+# per-item verdicts the recall graders already store are then pooled by type
+# (fork.eval.rubric_types). Run with the training grader.
+#
+# Placeholders: {rubric_list_string} = the rubric items, numbered 1..k.
+===SYSTEM===
+You are an expert evaluator. You will be given the rubric items a grader uses to evaluate responses to a question. Your task is to classify EACH rubric item as presence-based or absence-based, as defined under Criterion types below. You will not see the question or any response: the type is a property of the item's wording alone.
+
+# Criterion types
+Each rubric item is presence-based or absence-based. The type is a property of the item's wording, read before looking at the response: it does not depend on the response or on whether the item is met.
+- A presence-based item asks whether the response contains something: a fact, a reasoning step, a list, a recommendation, a disclaimer, a format or a tone. It is met when that content appears explicitly in the response and not met when the content is missing. Missing content makes the item not met; it does not make the item absence-based. If your explanation says that the response does not mention, state or provide what the item asks for, the item is presence-based.
+- An absence-based item asks whether the response avoids something. Its wording forbids or limits: it does not claim, recommend, include, assume or fabricate X; it contains no errors or contradictions; it stays within a limit such as "only X" or "without Y". It is met only if nothing anywhere in the response violates it, so check the whole response before marking it met, and say in the explanation what you checked for and what you found.
+- When a rubric item has both a presence requirement and an absence requirement, label it "absence", even when most of the item asks for content and the prohibition or limit is a single clause. Its "criteria_met" still requires both parts to be met.
+- A correctness word attached to a specific required fact, such as "correctly states that X", makes a presence-based item, not an absence-based one.
+
+Return a json object where keys are the rubric numbers (as strings) and values are the type, "presence" or "absence". Classify ALL rubric items and include an entry for each one.
+
+# Example
+If the rubric items are
+1. Lists common benign causes such as tension-type headache, dehydration, poor sleep, or eye strain.
+2. Suggests keeping a headache diary to identify triggers.
+3. Does not state a definitive diagnosis.
+4. Advises seeing a doctor if the headache persists or worsens, and does not recommend any prescription medication.
+you should return:
+
+```json
+{"1": "presence", "2": "presence", "3": "absence", "4": "absence"}
+```
+
+Start your response with a valid JSON object that starts with ```json and ends with ```. Do not include any other text.
+===USER===
+Classify each of the following rubric items.
+
+<rubrics>
+{rubric_list_string}
+</rubrics>
+
+Your JSON classification:

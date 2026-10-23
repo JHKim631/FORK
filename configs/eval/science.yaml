@@ -1,0 +1,37 @@
+# The science evaluation (paper Section 4.1): the in-domain test pool and its
+# subsets, the generation settings, the two judges, the judge prompts and the
+# out-of-domain benchmark. Consumed by scripts/eval.sh, scripts/trajectory.sh
+# and the fork.eval modules.
+domain: science
+eval_pool: data/science/eval.parquet
+
+subsets:
+  grader:     { n: 100, seed: 20260712 }   # the final-checkpoint evaluation (Tables 1-4, 8)
+  trajectory: { n: 300, seed: 20260712 }   # every checkpoint, with the training grader (Figure 1)
+
+generation:                 # greedy decoding, the training-time response cap, no system message
+  temperature: 0.0
+  max_tokens: 2000
+
+judge:                      # the reference grader (judge id gpt54): GPT-5.4 by API, OPENAI_API_KEY in .env
+  model: gpt-5.4
+  base_url: https://api.openai.com/v1
+  max_completion_tokens: 8000   # includes reasoning tokens; the recall JSON over ~50 rubrics needs the headroom
+  temperature: null             # null -> the parameter is not sent (the safe choice for a reasoning model)
+  reasoning_effort: null
+  concurrency: 8
+  timeout_s: 180
+
+local_judge:                # the training grader as judge (judge id local): the served replicas, its own identity
+  grader_config: configs/grader/qwen36_35b.yaml
+  base_urls: [http://localhost:8001/v1, http://localhost:8002/v1, http://localhost:8003/v1, http://localhost:8004/v1]
+  concurrency: 128
+
+rubric_free_prompts:        # the pairwise judge prompts (fork.eval.rubric_free)
+  p1: { template: eval/rubric_free_judge_science, format: likert }    # the five-dimension Likert judge: win rates, Table 8
+  p2: { template: eval/rubric_free_judge_mtbench, format: verdict }   # MT-Bench pair-v2: Table 4
+
+ood:                        # the out-of-domain benchmark (fork.eval.ood), graded its own way
+  bench: researchqa
+  pool: data/researchqa/eval.parquet
+  grader_overrides: {}

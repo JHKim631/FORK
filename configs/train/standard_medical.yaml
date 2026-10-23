@@ -1,0 +1,4 @@
+# Standard: the rubric-coverage (recall) reward, RubricHub-Medical.
+run_id: standard_medical
+reward: recall
+domain: medical

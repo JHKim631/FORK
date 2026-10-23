@@ -1,0 +1,4 @@
+# Standard: the rubric-coverage (recall) reward, RubricHub-Science.
+run_id: standard_science
+reward: recall
+domain: science

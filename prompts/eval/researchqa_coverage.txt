@@ -1,0 +1,34 @@
+# Evaluation: ResearchQA's own rubric-coverage judge prompt, used to score the
+# science arms on ResearchQA the benchmark's canonical way (paper Section 4.1,
+# Table 2): a single user message per batch of at most 8 rubric items (one per
+# line, unnumbered) with the response; the judge answers one of "Not at all,
+# Barely, Moderately, Mostly, Completely" per line, mapped to 0..1 in steps of
+# 1/4 and averaged over the query's items (fork.eval.ood).
+#
+# The text after the ===USER=== line is the official prompt byte for byte (no
+# trailing newline) and is filled by plain string replacement of {response} and
+# {questions} rather than by the {field} renderer.
+#
+# Provenance: compute_coverage.py::build_prompt in github.com/realliyifei/ResearchQA
+# (Li et al. 2026, "ResearchQA: Evaluating Scholarly Question Answering at Scale
+# Across 75 Fields with Survey-Mined Questions and Rubrics").
+===SYSTEM===
+===USER===
+Please judge the following questions based on the response below.
+For each question, select one of the following ratings to indicate the extent to which the response addresses the question:
+Not at all, Barely, Moderately, Mostly, Completely
+
+Definitions:
+- Not at all: *totally uninferable*
+- Barely: *unmentioned but inferrable*
+- Moderately: *mentioned but misses important details*
+- Mostly: *mentioned but misses some details*
+- Completely: *mentioned with sufficient details*
+
+Only output one of the five phrases for each question, separated by newlines, and nothing else.
+
+Response: {response}
+Questions:
+{questions}
+
+Output:

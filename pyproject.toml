@@ -1,0 +1,52 @@
+[project]
+name = "fork"
+version = "0.1.0"
+description = "FORK: a precision objective that mitigates reward hacking in rubric-based RL"
+readme = "README.md"
+license = { text = "Apache-2.0" }
+requires-python = ">=3.10"
+
+# What the reward function, the data builders and the evaluation import. These
+# run on any CPU machine; the two GPU stacks are the optional groups below.
+dependencies = [
+    "huggingface_hub>=0.23",
+    "pyarrow>=15",
+    "json-repair>=0.25",
+    "openai>=1.40",
+    "tenacity>=8.2",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+# Policy training: verl's GRPO trainer with a colocated vLLM rollout engine.
+# verl is pinned exactly — its batch reward manager drives
+# src/fork/rewards/verl_reward.py and later versions removed it. The exact
+# versions the paper's runs used are in requirements/trainer.txt.
+train = [
+    "torch>=2.5",
+    "verl==0.7.0",
+    "vllm>=0.11,<=0.12",
+    "flash-attn",
+    "wandb>=0.17",
+]
+# Serving the training grader (Qwen3.6-35B-A3B-FP8) with vLLM. A separate
+# environment: the model needs a newer vLLM than verl 0.7.0 allows
+# (requirements/grader.txt).
+grader = [
+    "vllm>=0.19",
+    "transformers>=5",
+]
+dev = [
+    "ruff>=0.5",
+]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+src = ["src"]

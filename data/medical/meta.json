@@ -1,0 +1,55 @@
+{
+  "config": {
+    "hf_repo": "sojuL/RubricHub_v1",
+    "hf_file": "RuRL/rurbichub_v1_Medical.parquet",
+    "repo_type": "dataset",
+    "revision": "3837d55971473a872e84879c88f708b8da3ec2ef",
+    "min_rubrics": 8,
+    "max_rubrics": 50,
+    "n_train": 12519,
+    "n_eval": 1391,
+    "seed": 20260707,
+    "id_prefix": "med-",
+    "source": "rubrichub_medical",
+    "output_dir": "data/medical"
+  },
+  "source_file": "rurbichub_v1_Medical.parquet",
+  "source_sha256": "28aa9d3b29dd59eda7b6b6afca6526fe97e4cd2e5ed7b6a5976b2b73c5185450",
+  "n_raw": 29681,
+  "n_dropped_empty": 0,
+  "n_dropped_rubric_count": 4,
+  "n_dropped_duplicate": 0,
+  "n_dropped_overlong": 0,
+  "n_usable": 29677,
+  "n_train": 12519,
+  "n_eval": 1391,
+  "rubric_count": {
+    "train": {
+      "min": 8,
+      "median": 31,
+      "p99": 42,
+      "max": 50
+    },
+    "eval": {
+      "min": 14,
+      "median": 30,
+      "p99": 43,
+      "max": 49
+    }
+  },
+  "prompt_chars": {
+    "train": {
+      "min": 7,
+      "median": 121,
+      "p99": 629,
+      "max": 2021
+    },
+    "eval": {
+      "min": 11,
+      "median": 123,
+      "p99": 634,
+      "max": 1647
+    }
+  },
+  "note": "RubricHub carries no reference answers; reference_answer is empty."
+}

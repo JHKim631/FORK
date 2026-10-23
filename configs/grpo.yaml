@@ -1,0 +1,20 @@
+# GRPO hyperparameters shared by every run (paper Section 4.1): scripts/train.sh
+# turns these into verl's command line; the per-run configs under
+# configs/train/ add only the reward.
+
+policy: Qwen/Qwen2.5-7B-Instruct
+
+rollouts_per_prompt: 16
+prompts_per_step: 128            # = the GRPO mini-batch: exactly one gradient pass per step
+temperature: 1.0
+max_prompt_tokens: 584           # 2,584 tokens of context in all: a prompt above the budget is dropped
+max_response_tokens: 2000
+
+lr: 4.2e-6
+lr_warmup_ratio: 0.05            # constant schedule after a 5 % linear warmup
+weight_decay: 0.01
+kl_coef: 0.01
+kl_loss_type: low_var_kl
+
+epochs: 3                        # 12,519 prompts / 128 per step = 97 steps per epoch, 291 steps
+checkpoint_every: 25             # steps

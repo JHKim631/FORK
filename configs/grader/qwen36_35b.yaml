@@ -1,0 +1,42 @@
+# The training grader: Qwen3.6-35B-A3B-FP8 served by vLLM, thinking OFF.
+#
+#   serving:  what scripts/serve_grader.sh launches (its env-var defaults mirror
+#             this block; the script does not parse the file).
+#   grader:   the call parameters fork.grader.client reads — the sampling knobs
+#             and the output-token cap of each of the five grader calls.
+#
+# Thinking off is part of the grader's identity (extra_body below + temperature
+# 0): the grader answers with the JSON object the prompt asks for and nothing
+# else. The model's architecture needs a newer vLLM than the trainer's, so it is
+# served from its own environment (requirements/grader.txt).
+
+serving:
+  model: Qwen/Qwen3.6-35B-A3B-FP8   # the HF id vLLM loads AND the model id the client sends
+  replicas: 4                       # one replica per grader GPU on an 8-GPU node (GPUs 4-7)
+  tensor_parallel_size: 1
+  base_port: 8001                   # replicas bind base_port .. base_port + replicas - 1
+  max_model_len: 16384
+  gpu_memory_utilization: 0.90
+  max_num_batched_tokens: 32768     # the chunked-prefill budget per tick; the vLLM default starves decode
+  max_num_seqs: 256
+  # Cudagraph capture must cover max_num_seqs, or decode is CPU-bound at high
+  # concurrency. Space-free JSON on purpose: the launch script word-splits it.
+  extra_args: '--compilation-config={"max_cudagraph_capture_size":256}'
+
+grader:
+  temperature: 0.0
+  extra_body:
+    chat_template_kwargs:
+      enable_thinking: false
+  # Output-token caps per call. A body cut at the cap is retried once at 1.5x
+  # and fails if still cut (fork.grader.client); the caps clear the longest
+  # bodies observed with margin.
+  max_tokens:
+    coverage: 5000      # rubric recall: one entry per rubric item (up to 50)
+    label: 5000         # Generic Criteria: one entry per unit, 64 units per call
+    match: 4000         # FORK: the units behind each MET rubric
+    threshold: 8000     # FORK: the threshold + one verdict per unit above it, 64 per call
+    correctness: 8000   # FORK: one verdict per unit above the threshold, 64 per call
+  concurrency_per_replica: 384
+  timeout_s: 300
+  max_retries: 2

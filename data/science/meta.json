@@ -1,0 +1,107 @@
+{
+  "config": {
+    "base_dir": "data/science_raw",
+    "output_dir": "data/science",
+    "keep": [
+      "RaR-Science",
+      "MegaScience"
+    ],
+    "sources": {
+      "RaR-Science": {
+        "hf_repo": "ScaleAI/RaR-Science",
+        "revision": "4b69f832234a7b10a2fe24d82616872e725115fb",
+        "files": [
+          "data/train-00000-of-00001.parquet",
+          "data/val-00000-of-00001.parquet",
+          "data/test-00000-of-00001.parquet"
+        ],
+        "column": "question"
+      },
+      "ResearchQA": {
+        "hf_repo": "realliyifei/ResearchQA",
+        "revision": "bf8a4cfef073ecfc0275c57acf8ca960e4dc79d6",
+        "files": [
+          "data/full-00000-of-00001.parquet",
+          "data/valid-00000-of-00001.parquet",
+          "data/test-00000-of-00001.parquet",
+          "data/test_mini-00000-of-00001.parquet"
+        ],
+        "column": "query"
+      },
+      "MegaScience": {
+        "hf_repo": "MegaScience/MegaScience",
+        "revision": "8df5586005374acba25aecc4f5469ce30fec605c",
+        "files": [
+          "data/train-00000-of-00001.parquet"
+        ],
+        "column": "question"
+      }
+    },
+    "n_train": 12519,
+    "seed": 20260707
+  },
+  "n_base": {
+    "train": 19806,
+    "eval": 2201
+  },
+  "n_kept": {
+    "train": 13096,
+    "eval": 1467
+  },
+  "n_train": 12519,
+  "n_eval": 1467,
+  "base_by_source": {
+    "train": {
+      "ResearchQA": 6710,
+      "MegaScience": 6574,
+      "RaR-Science": 5256,
+      "MegaScience+RaR-Science": 1266
+    },
+    "eval": {
+      "ResearchQA": 734,
+      "MegaScience": 710,
+      "RaR-Science": 598,
+      "MegaScience+RaR-Science": 159
+    }
+  },
+  "by_source": {
+    "train": {
+      "MegaScience": 6295,
+      "RaR-Science": 5022,
+      "MegaScience+RaR-Science": 1202
+    },
+    "eval": {
+      "MegaScience": 710,
+      "RaR-Science": 598,
+      "MegaScience+RaR-Science": 159
+    }
+  },
+  "rubric_count": {
+    "train": {
+      "min": 9,
+      "median": 24,
+      "p99": 38,
+      "max": 46
+    },
+    "eval": {
+      "min": 11,
+      "median": 24,
+      "p99": 38,
+      "max": 47
+    }
+  },
+  "prompt_chars": {
+    "train": {
+      "min": 6,
+      "median": 281,
+      "p99": 1379,
+      "max": 2439
+    },
+    "eval": {
+      "min": 18,
+      "median": 278,
+      "p99": 1358,
+      "max": 2287
+    }
+  }
+}

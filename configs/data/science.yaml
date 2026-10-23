@@ -1,0 +1,39 @@
+# The curated science split -> data/science/{train,eval}.parquet: RubricHub-Science
+# without the prompts that come from ResearchQA, which is the science arms'
+# out-of-domain benchmark, so no ResearchQA question may sit in the training
+# data or the eval pool.
+#
+# RubricHub-Science's prompts are verbatim questions from three datasets and
+# carry no source label, so fork.data.curate attributes each prompt by exact
+# match (whitespace collapsed) against the three sources at pinned revisions and
+# keeps the RaR-Science and MegaScience ones. Rows are copied unchanged from the
+# data/science_raw split (configs/data/science_raw.yaml), so its rubric-count
+# filter and prompt-token budget still hold.
+#   train  19,806 -> 13,096 kept -> 12,519 (the medical train count, drawn with the seed):
+#          97 steps per epoch, 291 steps over 3 epochs — the medical geometry
+#   eval    2,201 ->  1,467 kept, all of them: the test pool the evaluation draws from
+base_dir: data/science_raw
+output_dir: data/science
+
+keep: [RaR-Science, MegaScience]   # a question found in both is kept
+sources:
+  RaR-Science:
+    hf_repo: ScaleAI/RaR-Science
+    revision: 4b69f832234a7b10a2fe24d82616872e725115fb
+    files: [data/train-00000-of-00001.parquet, data/val-00000-of-00001.parquet,
+            data/test-00000-of-00001.parquet]
+    column: question
+  ResearchQA:
+    hf_repo: realliyifei/ResearchQA
+    revision: bf8a4cfef073ecfc0275c57acf8ca960e4dc79d6
+    files: [data/full-00000-of-00001.parquet, data/valid-00000-of-00001.parquet,
+            data/test-00000-of-00001.parquet, data/test_mini-00000-of-00001.parquet]
+    column: query
+  MegaScience:
+    hf_repo: MegaScience/MegaScience
+    revision: 8df5586005374acba25aecc4f5469ce30fec605c
+    files: [data/train-00000-of-00001.parquet]
+    column: question
+
+n_train: 12519            # = the medical n_train
+seed: 20260707            # the split seed

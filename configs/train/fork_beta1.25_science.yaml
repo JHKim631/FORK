@@ -1,0 +1,6 @@
+# FORK, beta = 1.25: F_1.25 of recall and the credit-based precision, RubricHub-Science.
+run_id: fork_beta1.25_science
+reward: fbeta
+beta: 1.25
+precision: credit
+domain: science

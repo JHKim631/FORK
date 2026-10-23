@@ -1,0 +1,26 @@
+# RubricHub-Medical -> data/medical/{train,eval}.parquet (the paper's 12,519 / 1,391 split).
+#
+# Source: the RubricHub dataset's medical slice at the pinned commit. Rows are
+# filtered by rubric count (the extreme tails only), de-duplicated by prompt,
+# shuffled with the seed and split into disjoint train / eval sets. The
+# shipped data/medical/ was built with exactly this config; `scripts/prepare_data.sh
+# --rebuild` reproduces it byte for byte.
+hf_repo: sojuL/RubricHub_v1
+hf_file: RuRL/rurbichub_v1_Medical.parquet
+repo_type: dataset
+revision: 3837d55971473a872e84879c88f708b8da3ec2ef
+
+# RubricHub medical has 8-67 rubric items per prompt (median ~30); only the
+# extreme tails are dropped (4 rows), so the recall grading call stays within
+# the grader's output-token cap (configs/grader/qwen36_35b.yaml sizes it for
+# <= 50 items).
+min_rubrics: 8
+max_rubrics: 50
+
+n_train: 12519
+n_eval: 1391            # the test pool; the evaluation draws its subsets from it (configs/eval/medical.yaml)
+seed: 20260707
+
+id_prefix: med-
+source: rubrichub_medical
+output_dir: data/medical

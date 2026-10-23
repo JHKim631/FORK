@@ -1,0 +1,6 @@
+# Generic Criteria: F1 of recall and a prompting-based precision (correct and necessary judged by the grader), RubricHub-Medical.
+run_id: generic_criteria_medical
+reward: fbeta
+beta: 1.0
+precision: generic
+domain: medical

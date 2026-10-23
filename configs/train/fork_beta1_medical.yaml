@@ -1,0 +1,6 @@
+# FORK, beta = 1: F1 of recall and the credit-based precision, RubricHub-Medical.
+run_id: fork_beta1_medical
+reward: fbeta
+beta: 1.0
+precision: credit
+domain: medical
