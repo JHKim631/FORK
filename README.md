@@ -1,16 +1,11 @@
-<!--
-  Placeholders still open (search for "TODO(identity)"):
-    - the arXiv id in the badge, the paper link and the BibTeX (XXXX.XXXXX)
-    - the dates in "Updates"
--->
 # Eat Your Precision: Precision Objective Mitigates Reward Hacking in Rubric-Based RL
 
-[![arXiv](https://img.shields.io/badge/Paper-arXiv:XXXX.XXXXX-Green)](https://arxiv.org/abs/XXXX.XXXXX)  [![BibTex](https://img.shields.io/badge/Paper-BibTex-yellow)](#bibtex)  [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+[![arXiv](https://img.shields.io/badge/Paper-arXiv:2610.33512-Green)](https://arxiv.org/abs/2610.33512)  [![BibTex](https://img.shields.io/badge/Paper-BibTex-yellow)](#bibtex)  [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 
 Official implementation of **FORK**, a reward for rubric-based reinforcement learning that jointly optimizes rubric recall and a unit-level precision objective, as presented in our paper:  
-[**Eat Your Precision: Precision Objective Mitigates Reward Hacking in Rubric-Based RL**](https://arxiv.org/abs/XXXX.XXXXX)  
-by Hyun Ryu<sup>\*1</sup>, Jong-Heon Kim<sup>\*1</sup>, Yiqing Xie<sup>2</sup>, Seungone Kim<sup>2</sup>, Carolyn Rosé<sup>3</sup> and Eunho Yang<sup>1</sup>  
-<sup>1</sup>Korea Advanced Institute of Science & Technology &nbsp;&nbsp; <sup>2</sup>Carnegie Mellon University &nbsp;&nbsp; <sup>3</sup>School of Computer Science, Carnegie Mellon University &nbsp;&nbsp; <sup>\*</sup>Equal Contribution
+[**Eat Your Precision: Precision Objective Mitigates Reward Hacking in Rubric-Based RL**](https://arxiv.org/abs/2610.33512)  
+by Hyun Ryu<sup>\*1,2</sup>, Jong-Heon Kim<sup>\*1</sup>, Yiqing Xie<sup>2</sup>, Seungone Kim<sup>2</sup>, Carolyn Rosé<sup>†2</sup> and Eunho Yang<sup>†1</sup>  
+<sup>1</sup>Korea Advanced Institute of Science & Technology &nbsp;&nbsp; <sup>2</sup>Carnegie Mellon University Language Technologies Institute &nbsp;&nbsp; <sup>\*</sup>Equal Contribution &nbsp;&nbsp; <sup>†</sup>Equal Advising
 
 <p align="center">
   <img src="assets/fork_overview.png" alt="Training with FORK" width="90%" />
@@ -19,7 +14,7 @@ by Hyun Ryu<sup>\*1</sup>, Jong-Heon Kim<sup>\*1</sup>, Yiqing Xie<sup>2</sup>, 
 ---
 
 ## 🔔 Updates
-- [✔] (YY.MM.DD) Paper is out! [here](https://arxiv.org/abs/XXXX.XXXXX)  <!-- TODO(identity) -->
+- [✔] (26.10.24) Paper is out! [here](https://arxiv.org/abs/2610.33512)
 
 ---
 
@@ -138,11 +133,10 @@ If you find this repository useful for your research, please consider citing us:
 @article{ryu2026eat,
   title={Eat Your Precision: Precision Objective Mitigates Reward Hacking in Rubric-Based RL},
   author={Ryu, Hyun and Kim, Jong-Heon and Xie, Yiqing and Kim, Seungone and Rose, Carolyn and Yang, Eunho},
-  journal={arXiv preprint arXiv:XXXX.XXXXX},
+  journal={arXiv preprint arXiv:2610.33512},
   year={2026}
 }
 ```
-<!-- TODO(identity): the arXiv id -->
 
 ## 📄 License and acknowledgements
 
